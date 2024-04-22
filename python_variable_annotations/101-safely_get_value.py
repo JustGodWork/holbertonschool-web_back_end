@@ -18,4 +18,7 @@ def safely_get_value(
         Return the value linked to key in a dict or default
         dct(Mapping), key(Any), default(Union[T, None]) and return the result
     """
-    return dct[key] if key in dct else default
+    if key in dct:
+        return dct[key]
+    else:
+        return default

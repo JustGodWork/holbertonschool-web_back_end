@@ -12,4 +12,7 @@ def safe_first_element(lst: Sequence[Any]) -> Optional[Any]:
         Return the first element of a list or None if the list is empty
         lst(Sequence[Any]) and return the result
     """
-    return lst[0] if lst else None
+    if lst:
+        return lst[0]
+    else:
+        return None
