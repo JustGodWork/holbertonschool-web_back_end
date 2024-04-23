@@ -4,6 +4,7 @@
 """
 
 
+import asyncio
 from typing import List
 
 
@@ -16,6 +17,14 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
         random delay between 0 and max_delay
     """
     delays = []
+    tasks = []
+
     for _ in range(n):
-        delays.append(await task_wait_random(max_delay))
-    return sorted(delays)
+        task = task_wait_random(max_delay)
+        tasks.append(task)
+
+    for task in asyncio.as_completed(tasks):
+        delay = await task
+        delays.append(delay)
+
+    return delays
