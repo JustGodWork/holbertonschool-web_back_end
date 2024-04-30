@@ -1,2 +1,2 @@
 // 7. Delete all documents named 'Holberton school'
-db.schools.deleteMany({name: 'Holberton school'});
+db.schools.deleteMany({name: 'Holberton school'})
