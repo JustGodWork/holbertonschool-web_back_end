@@ -9,9 +9,8 @@ import mysql.connector
 
 
 def filter_datum(fields, redaction, message, separator):
-    pattern = f"({'|'.join(fields)})=[^{separator}]*"
-    return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
-
+    pattern = "({})=[^{}]*".format("|".join(fields), separator)
+    return re.sub(pattern, lambda m: "{}={}".format(m.group(1), redaction), message)
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class """
@@ -33,6 +32,12 @@ PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def get_logger() -> logging.Logger:
+    """
+    Creates and configures a logger named 'user_data'.
+
+    Returns:
+        logging.Logger: Configured logger.
+    """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -63,9 +68,12 @@ def main():
     logger = get_logger()
 
     for row in cursor:
-        message = f"name={row[0]}; email={row[1]};\
-              phone={row[2]}; ssn={row[3]}; password={row[4]};\
-                  ip={row[5]}; last_login={row[6]}; user_agent={row[7]}"
+        message = "name={}; email={}; phone={};\
+              ssn={}; password={}; ip={};\
+                  last_login={}; user_agent={}".format(
+            row[0], row[1], row[2], row[3],
+            row[4], row[5], row[6], row[7]
+        )
         logger.info(message)
 
     cursor.close()
