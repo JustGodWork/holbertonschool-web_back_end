@@ -72,16 +72,15 @@ def main():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
+
+    headers = [field[0] for field in cursor.description]
     logger = get_logger()
 
     for row in cursor:
-        message = "name={}; email={}; phone={};\
-              ssn={}; password={}; ip={};\
-                  last_login={}; user_agent={}".format(
-            row[0], row[1], row[2], row[3],
-            row[4], row[5], row[6], row[7]
-        )
-        logger.info(message)
+        data = ''
+        for f, p in zip(row, headers):
+            data += f'{p}={(f)}; '
+        logger.info(data)
 
     cursor.close()
     db.close()
