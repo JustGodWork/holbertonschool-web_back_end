@@ -6,7 +6,7 @@ import re
 import logging
 import os
 import mysql.connector
-from typing import List
+from typing import List, Literal, Tuple
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -17,8 +17,7 @@ def filter_datum(fields: List[str], redaction: str,
     """
     for field in fields:
         message = re.sub(r"{field}=.+?{separator}".format(
-                  field=field,
-                  separator=separator),
+                  field=field, separator=separator),
                   "{}={}{}".format(field, redaction, separator), message)
     return message
 
@@ -29,11 +28,18 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields):
+    def __init__(self, fields: Tuple[Literal['name'], Literal['email'],
+        Literal['phone'], Literal['ssn'], Literal['password']]) -> None:
+        """
+        Constructor method to initialize the RedactingFormatter object.
+        """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """
+        Filters values from the log record using filter_datum.
+        """
         original_message = super().format(record)
         return filter_datum(self.fields, self.REDACTION,
                             original_message, self.SEPARATOR)
