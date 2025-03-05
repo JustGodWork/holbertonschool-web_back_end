@@ -6,8 +6,7 @@ from models.user import User
 from os import getenv
 
 
-@app_views.route('/auth_session/login', methods=['POST'],
-                    strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
     """ Handle login route for session authentication """
     from api.v1.app import auth
