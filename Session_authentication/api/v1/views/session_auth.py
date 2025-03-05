@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """ Session Authentication views """
-from flask import Blueprint, request, jsonify
+from flask import request, jsonify
+from api.v1.views import app_views
 from models.user import User
 from os import getenv
 
-session_auth = Blueprint('session_auth', __name__)
 
-
-@session_auth.route('/auth_session/login', methods=['POST'],
+@app_views.route('/auth_session/login', methods=['POST'],
                     strict_slashes=False)
 def login():
     """ Handle login route for session authentication """
@@ -31,7 +30,7 @@ def login():
 
     session_id = auth.create_session(user.id)
     response = jsonify(user.to_json())
-    session_name = getenv('SESSION_NAME')
+    session_name = getenv('SESSION_NAME', 'my_session_id')
     response.set_cookie(session_name, session_id)
 
     return response
