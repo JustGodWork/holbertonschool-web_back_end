@@ -47,7 +47,10 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> Optional[str]:
-        """Create a session for the user with matching email and return the session ID."""
+        """
+            Create a session for the user with matching
+            email and return the session ID.
+        """
         try:
             user = self._db.find_user_by(email=email)
         except NoResultFound:
