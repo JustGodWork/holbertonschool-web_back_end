@@ -19,9 +19,3 @@ class User(Base):
     hashed_password = Column(VARCHAR(250), nullable=False)
     session_id = Column(VARCHAR(250))
     reset_token = Column(VARCHAR(250))
-
-    def __init__(self, email: str, hashed_password: str) -> None:
-        """ Initialize a new User instance
-        """
-        self.email = email
-        self.hashed_password = hashed_password
