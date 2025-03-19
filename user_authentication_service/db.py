@@ -41,10 +41,16 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """Find a user by the given arbitrary keyword arguments."""
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if user is None:
-                raise NoResultFound
-            return user
-        except InvalidRequestError:
-            raise
+
+        columns = User.__table__.columns.keys()
+
+        for key in kwargs.keys():
+            if key not in columns:
+                raise InvalidRequestError(f"User has no column {key}")
+
+        user = self._session.query(User).filter_by(**kwargs).first()
+
+        if user is None:
+            raise NoResultFound("No user found with that criteria")
+
+        return user
