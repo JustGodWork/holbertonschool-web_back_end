@@ -5,7 +5,10 @@ Unit tests for client.GithubOrgClient class.
 
 import unittest
 from unittest.mock import PropertyMock, patch
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
+from unittest import TestCase
+from unittest.mock import patch
+from fixtures import TEST_PAYLOAD
 from client import GithubOrgClient
 
 
@@ -81,3 +84,52 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("test_org")
         result = client.has_license(repo, license_key)
         self.assertEqual(result, expected)
+
+
+@parameterized_class(
+    ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+    TEST_PAYLOAD
+)
+class TestIntegrationGithubOrgClient(TestCase):
+    """
+    Integration test case for GithubOrgClient.public_repos.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Set up the class by patching requests.get and mocking its behavior.
+        """
+        cls.get_patcher = patch(
+            "requests.get",
+            **{"return_value.json.side_effect": [
+                cls.org_payload, cls.repos_payload,
+                cls.org_payload, cls.repos_payload
+            ]}
+        )
+
+        # Start the patcher
+        cls.mock_get = cls.get_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Tear down the class by stopping the patcher.
+        """
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """
+            Test that GithubOrgClient.public_repos
+            returns the expected list of repos.
+        """
+        client = GithubOrgClient("test_org")
+        self.assertEqual(client.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """
+        Test that GithubOrgClient.public_repos filters repos by license.
+        """
+        client = GithubOrgClient("test_org")
+        self.assertEqual(client.public_repos(license="apache-2.0"),
+                         self.apache2_repos)
