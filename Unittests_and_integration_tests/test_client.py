@@ -6,7 +6,6 @@ Unit tests for client.GithubOrgClient class.
 import unittest
 from unittest.mock import PropertyMock, patch
 from parameterized import parameterized, parameterized_class
-from unittest import TestCase
 from unittest.mock import patch
 from fixtures import TEST_PAYLOAD
 from client import GithubOrgClient
@@ -90,7 +89,7 @@ class TestGithubOrgClient(unittest.TestCase):
     ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
     TEST_PAYLOAD
 )
-class TestIntegrationGithubOrgClient(TestCase):
+class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
     Integration test case for GithubOrgClient.public_repos.
     """
@@ -133,3 +132,7 @@ class TestIntegrationGithubOrgClient(TestCase):
         client = GithubOrgClient("test_org")
         self.assertEqual(client.public_repos(license="apache-2.0"),
                          self.apache2_repos)
+
+
+if __name__ == "__main__":
+    unittest.main()
