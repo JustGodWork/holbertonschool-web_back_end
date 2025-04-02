@@ -6,7 +6,17 @@ from flask_babel import Babel, _
 
 
 class Config:
-    """Configuration for Babel."""
+    """
+    Configuration class for Babel internationalization.
+
+    Attributes:
+        LANGUAGES (list): A list of supported languages for the application.
+        Default languages are English ('en') and French ('fr').
+        BABEL_DEFAULT_LOCALE (str): The default locale for the application.
+                                    Defaults to 'en' (English).
+        BABEL_DEFAULT_TIMEZONE (str): The default timezone for the application.
+                                      Defaults to 'UTC'.
+    """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -57,7 +67,16 @@ def before_request():
 
 @app.route('/')
 def index():
-    """Render the index page."""
+    """
+    Render the index page.
+
+    This function handles the root route of the application and renders
+    the '5-index.html' template. It is typically used to display the
+    main page of the application.
+
+    Returns:
+        str: The rendered HTML content of the '5-index.html' template.
+    """
     return render_template('5-index.html')
 
 
