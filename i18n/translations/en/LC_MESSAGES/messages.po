@@ -26,6 +26,14 @@ msgstr "Welcome to Holberton"
 msgid "home_header"
 msgstr "Hello world!"
 
+#: templates/5-index.html:12
+msgid "logged_in_as"
+msgstr "You are logged in as %(username)s."
+
+#: templates/5-index.html:14
+msgid "not_logged_in"
+msgstr "You are not logged in."
+
 #: venv/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
 msgid "{editor}: Editing failed"

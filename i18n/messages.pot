@@ -25,6 +25,14 @@ msgstr ""
 msgid "home_header"
 msgstr ""
 
+#: templates/5-index.html:12
+msgid "logged_in_as"
+msgstr ""
+
+#: templates/5-index.html:14
+msgid "not_logged_in"
+msgstr ""
+
 #: venv/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
 msgid "{editor}: Editing failed"
