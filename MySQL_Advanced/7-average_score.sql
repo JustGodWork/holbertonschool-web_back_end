@@ -1,6 +1,8 @@
 -- Description: Create a procedure to compute the average score for a user
 DELIMITER $$
 
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser $$
+
 CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
 BEGIN
     DECLARE avg_score FLOAT;
