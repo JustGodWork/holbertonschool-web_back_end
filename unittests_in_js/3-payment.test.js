@@ -1,4 +1,4 @@
-const { assert, expect } = require('chai');
+const { expect } = require('chai');
 const sinon = require('sinon');
 const Utils = require('./utils.js');
 
