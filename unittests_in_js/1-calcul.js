@@ -1,5 +1,5 @@
-function calculateNumber( type, a, b) {
-	if (typeof type !== "string") return "Error";
+function calculateNumber(type, a, b) {
+  if (typeof type !== "string") return "Error";
   if (type === "SUM") return Math.round(a) + Math.round(b);
   if (type === "SUBTRACT") return Math.round(a) - Math.round(b);
   if (type === "DIVIDE")
